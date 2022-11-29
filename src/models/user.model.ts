@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from 'bcryptjs';
-import { FilterQuery, Model, model, Schema } from 'mongoose';
+import mongoose, { FilterQuery, Model, model, Schema } from 'mongoose';
 import validator from 'validator';
 
 import { roles } from '../config/roles';
@@ -77,7 +77,10 @@ userSchema.statics.isEmailTaken = async function (
   email: string,
   excludeUserId?: string
 ) {
-  const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+  const user = await this.findOne({
+    email,
+    _id: mongoose.trusted({ $ne: excludeUserId }),
+  });
   return !!user;
 };
 

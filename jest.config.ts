@@ -6,6 +6,7 @@ const config: Config = {
   testEnvironmentOptions: {
     NODE_ENV: 'test',
   },
+  preset: 'ts-jest',
   restoreMocks: true,
   coveragePathIgnorePatterns: [
     'node_modules',

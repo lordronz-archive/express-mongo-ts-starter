@@ -1,6 +1,6 @@
 export enum Role {
-  ADMIN = 'admin',
-  USER = 'user,',
+  admin = 'admin',
+  user = 'user,',
 }
 
 export interface UserInterface {
@@ -8,7 +8,7 @@ export interface UserInterface {
   name: string;
   email: string;
   password: string;
-  role?: Role;
+  role?: keyof typeof Role;
   isEmailVerified: boolean;
   updatedAt: Date;
   createdAt: Date;

@@ -4,6 +4,7 @@ import config from '../../src/config/config';
 
 const setupTestDB = () => {
   beforeAll(async () => {
+    mongoose.set('strictQuery', true);
     await mongoose.connect(config.mongoose.url, config.mongoose.options);
   });
 

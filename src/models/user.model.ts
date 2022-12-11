@@ -6,7 +6,7 @@ import validator from 'validator';
 import { roles } from '../config/roles';
 import UserInterface from '../interfaces/user.interface';
 import { paginate, toJSON } from './plugins';
-import { QueryOption } from './plugins/paginate.plugin';
+import { QueryOption, QueryResult } from './plugins/paginate.plugin';
 
 export interface UserMethods {
   isPasswordMatch(password: string): Promise<boolean>;
@@ -17,7 +17,7 @@ export interface UserModel extends Model<UserInterface, unknown, UserMethods> {
   paginate: (
     filter: FilterQuery<unknown>,
     options: QueryOption
-  ) => Promise<void>;
+  ) => Promise<QueryResult<UserInterface>>;
   toJSON: (schema: Schema) => void;
 }
 

@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import Joi from 'joi';
+import mongoose from 'mongoose';
 import path from 'path';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
@@ -47,7 +48,7 @@ const config = {
   port: envVars.PORT,
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
-    options: {},
+    options: {} as mongoose.ConnectOptions,
   },
   jwt: {
     secret: envVars.JWT_SECRET,

@@ -12,7 +12,7 @@ import userService from './user.service';
 export const generateToken = (
   userId: string,
   expires: Moment,
-  type: string,
+  type?: string,
   secret = config.jwt.secret
 ) => {
   const payload = {

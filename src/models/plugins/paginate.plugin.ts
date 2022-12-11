@@ -1,18 +1,28 @@
 /* eslint-disable no-param-reassign */
 
-import type { FilterQuery, Schema } from 'mongoose';
+import type { Document, FilterQuery, Schema } from 'mongoose';
 
 export type QueryOption = {
-  sortBy: 'desc' | 'asc';
-  limit: string;
-  page: string;
+  sortBy?: 'desc' | 'asc';
+  limit?: string;
+  page?: string;
+  populate?: string;
 };
 
-const paginate = (schema: Schema) => {
+export type QueryResult<T> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  results: (Document<unknown, any, T> & T)[];
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalResults: number;
+};
+
+const paginate = <T>(schema: Schema) => {
   schema.statics.paginate = async function (
     filter: FilterQuery<unknown>,
     options: QueryOption
-  ) {
+  ): Promise<QueryResult<T>> {
     let sort = '';
     if (options.sortBy) {
       const sortingCriteria: string[] = [];
@@ -37,6 +47,18 @@ const paginate = (schema: Schema) => {
 
     const countPromise = this.countDocuments(filter).exec();
     let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
+
+    if (options.populate) {
+      options.populate.split(',').forEach((populateOption) => {
+        docsPromise = docsPromise.populate(
+          populateOption
+            .split('.')
+            .reverse()
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .reduce((a, b) => ({ path: b, populate: a } as any))
+        );
+      });
+    }
 
     docsPromise = docsPromise.exec();
 

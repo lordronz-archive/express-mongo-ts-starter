@@ -63,7 +63,7 @@
     "@types/jest": "^29.2.4",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/morgan": "^1.9.3",
-    "@types/node": "^18.11.13",
+    "@types/node": "^18.14.2",
     "@types/nodemailer": "^6.4.6",
     "@types/passport-jwt": "^3.0.7",
     "@types/supertest": "^2.0.12",
